@@ -1,6 +1,9 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { toast } from "react-toastify";
+import { useNavigate} from "react-router-dom";
 
+
+const navigate = useNavigate();
 
 const initialState = {
     cartItems: [],
@@ -46,6 +49,7 @@ const cartSlice = createSlice({
             }
             cartSlice.caseReducers.calculateTotals(state);
             toast.success('Product added to the cart!');
+            navigate("/cart");
 
         }
     }

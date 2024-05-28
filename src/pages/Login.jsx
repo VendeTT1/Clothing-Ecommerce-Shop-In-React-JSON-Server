@@ -10,8 +10,8 @@ const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
-  const dispatch = useDispatch();
-  const loginState = useSelector((state) => state.auth.isLoggedIn);
+  const dispatch = useDispatch(); // to update the initial state of the app when a user is logged in/out
+  const loginState = useSelector((state) => state.auth.isLoggedIn); //read data from react store
 
   useEffect(() => {
     if (loginState) {

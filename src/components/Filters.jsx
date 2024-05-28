@@ -6,6 +6,22 @@ import FormSelect from "./FormSelect";
 import FormDatePicker from "./FormDatePicker";
 import FormCheckbox from "./FormCheckbox";
 
+/*
+    Purpose: Provides a form for users to filter products by various criteria.
+    Form Elements:
+        Search Input: Allows users to search for products by name.
+        Category Select: Allows users to filter products by category.
+        Brand Select: Allows users to filter products by brand.
+        Sort Select: Allows users to sort products by price or order.
+        Gender Select: Allows users to filter products by gender.
+        Price Range: Allows users to filter products by price range.
+        Date Picker: Allows users to filter products by production date.
+        In Stock Checkbox: Allows users to filter products that are in stock.
+        Search Button: Submits the filter form.
+        Reset Button: Resets the filter form.
+
+ */
+
 const Filters = () => {
   const [selectCategoryList, setSelectCategoryList] = useState([
     "all",

@@ -11,6 +11,7 @@ import axios from "axios";
 import { useLoaderData, useNavigate, useSearchParams } from "react-router-dom";
 import { nanoid } from "nanoid";
 
+//Purpose: Fetches products from the server based on filters and search parameters.
 export const shopLoader = async ({ request }) => {
   const params = Object.fromEntries([
     ...new URL(request.url).searchParams.entries(),
@@ -68,6 +69,7 @@ export const shopLoader = async ({ request }) => {
 
   return null;
 };
+//    Returns: An object containing the fetched products, the length of the products array, and the current page number.
 
 
 
