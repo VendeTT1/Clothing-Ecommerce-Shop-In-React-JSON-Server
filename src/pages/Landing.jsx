@@ -6,7 +6,8 @@ import axios from "axios";
 
 export const landingLoader = async () => {
   const response = await axios(
-    `http://localhost:8080/products?_page=1&_limit=8`
+   `http://localhost:8080/product?page=1&limit=8`
+    // `http://localhost:8080/product/all` // this request returns all product in one single page without setting limits
   );
   const data = response.data;
 
@@ -32,9 +33,9 @@ const Landing = () => {
               key={product.id}
               id={product.id}
               title={product.name}
-              image={product.imageUrl}
+              image={product.imageurl}
               rating={product.rating}
-              price={product.price.current.value}
+              price={product.price}
             />
           ))}
         </div>

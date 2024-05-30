@@ -25,9 +25,27 @@ import { store } from "../store";
 export const singleProductLoader = async ({ params }) => {
   const { id } = params;
 
-  const response = await axios(`http://localhost:8080/products/${id}`);
+  // const response = await axios(`http://localhost:8080/product/${id}`);
+  // console.log("This is the response " +  JSON.stringify(response.data,  null, 2));
+  // return { productData: response.data };
+  try {
+  const response = await axios(`http://localhost:8080/product/${id}`);
 
-  return { productData: response.data };
+  // Access product data directly without stringifying
+  const productData = response.data[0];
+  const additionalImageUrls = productData.additionalimageurls;
+  const availablesizes = productData.availablesizes;
+  console.log(productData); // This will now show the data in object format
+  console.log("here is add :", additionalImageUrls); // Access the property directly
+console.log("here is type :", typeof(additionalImageUrls));
+  console.log("here is add :", availablesizes);
+
+  return { productData, additionalImageUrls }; // Return both data objects
+} catch (error) {
+  console.error("Error fetching product data:", error);
+  // Handle errors appropriately (e.g., return null or an error object)
+}
+
 };
 
 const SingleProduct = () => {
@@ -47,20 +65,28 @@ const SingleProduct = () => {
   ]);
 
   const { productData } = useLoaderData();
-
+const sizeString = productData.availablesizes;
+const sizeArray = sizeString.split(",").map((size ) => parseInt(size, 10)).slice(1);
+console.log(sizeArray);
+console.log("this the type of the sizeArray :" + typeof(sizeArray));
+ 
   const product = {
     id: productData?.id + size,
     title: productData?.name,
-    image: productData?.imageUrl,
+    image: productData?.imageurl,
     rating: productData?.rating,
     price: productData?.price?.current?.value,
-    brandName: productData?.brandName,
+    brandName: productData?.brandname,
     amount: quantity,
-    selectedSize: size || productData?.availableSizes[0],
+    selectedSize: size || sizeArray,
+    additionalImageUrls: productData?.additionalimageurls,
+
     isInWishList:
       wishItems.find((item) => item.id === productData?.id + size) !==
       undefined,
+    
   };
+
 
   for (let i = 0; i < productData?.rating; i++) {
     rating[i] = "full star";
@@ -115,18 +141,19 @@ const SingleProduct = () => {
     toast.success("Product removed from the wishlist!");
   };
 
+
   return (
     <>
       <SectionTitle title="Product page" path="Home | Shop | Product page" />
       <div className="grid grid-cols-2 max-w-7xl mx-auto mt-5 max-lg:grid-cols-1 max-lg:mx-5">
         <div className="product-images flex flex-col justify-center max-lg:justify-start">
           <img
-            src={`https://${productData?.additionalImageUrls[currentImage]}`}
+            src={`https://${productData?.additionalimageurls[currentImage]}`}
             className="w-96 text-center border border-gray-600 cursor-pointer"
             alt={productData.name}
           />
           <div className="other-product-images mt-1 grid grid-cols-3 w-96 gap-y-1 gap-x-2 max-sm:grid-cols-2 max-sm:w-64">
-            {productData?.additionalImageUrls.map((imageObj, index) => (
+            {productData?.additionalimageurls.map((imageObj, index) => (
               <img
                 src={`https://${imageObj}`}
                 key={nanoid()}
@@ -150,7 +177,7 @@ const SingleProduct = () => {
           </div>
           <div className="text-2xl">
             <SelectSize
-              sizeList={productData?.availableSizes}
+              sizeList={sizeArray}
               size={size}
               setSize={setSize}
             />
@@ -218,19 +245,19 @@ const SingleProduct = () => {
           </div>
           <div className="other-product-info flex flex-col gap-x-2">
             <div className="badge bg-gray-700 badge-lg font-bold text-white p-5 mt-2">
-              Brand: {productData?.brandName}
+              Brand: {productData?.brandname}
             </div>
             <div className="badge bg-gray-700 badge-lg font-bold text-white p-5 mt-2">
               Gender: {productData?.gender}
             </div>
             <div
               className={
-                productData?.isInStock
+                productData?.isinstock
                   ? "badge bg-gray-700 badge-lg font-bold text-white p-5 mt-2"
                   : "badge bg-gray-700 badge-lg font-bold text-white p-5 mt-2"
               }
             >
-              In Stock: {productData?.isInStock ? "Yes" : "No"}
+              In Stock: {productData?.isinstock ? "Yes" : "No"}
             </div>
             <div className="badge bg-gray-700 badge-lg font-bold text-white p-5 mt-2">
               SKU: {productData?.productCode}
