@@ -83,13 +83,13 @@ const Filters = () => {
   return (
     <Form className="bg-base-200 rounded-md px-8 py-4 grid gap-x-4  gap-y-8 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 items-center">
       {/* SEARCH */}
-      <FormInput
+      {/* <FormInput
         type="search"
         label="search product"
         name="search"
         size="input-sm"
         defaultValue=""
-      />
+      /> */}
       {/* CATEGORIES */}
       <FormSelect
         label="select category"
@@ -130,14 +130,14 @@ const Filters = () => {
         price={2000}
       />
       {/* Date Picker */}
-      <FormDatePicker label="select minimum production date" name="date" />
+      {/* <FormDatePicker label="select minimum production date" name="date" /> */}
 
       {/* In stock */}
-      <FormCheckbox
+      {/* <FormCheckbox
         label="Only products in stock"
         name="stock"
         defaultValue="false"
-      />
+      /> */}
 
       {/* BUTTONS */}
 
