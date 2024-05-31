@@ -15,7 +15,7 @@ const SingleProductReviews = ({ rating, productData }) => {
         {productData.reviews.map((item) => (
           <SingleReview key={nanoid()} reviewObj={item} />
         ))}
-        {productData?.totalReviewCount > 3 && (
+        {productData?.totalreviewcount > 3 && (
           <button className="btn bg-blue-600 hover:bg-blue-500 w-full text-white">
             Load more reviews
           </button>

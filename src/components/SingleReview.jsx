@@ -3,6 +3,18 @@ import React from "react";
 import { Link } from "react-router-dom";
 
 const SingleReview = ({ reviewObj }) => {
+  const dateString = reviewObj.date;
+
+  // 1. Create a Date object from the string
+  const dateObject = new Date(dateString);
+
+  // 2. Format the date using toLocaleDateString()
+  const formattedDate = dateObject.toLocaleDateString("en-US", {
+    year: "numeric",
+    month: "long", 
+    day: "numeric",
+  });
+
   const rating = [
     "empty star",
     "empty star",
@@ -67,7 +79,7 @@ const SingleReview = ({ reviewObj }) => {
       <footer className="mb-5 text-sm text-accent-content">
         <p>
           Reviewed in the {reviewObj.location + " "}
-          <time>{reviewObj.date}</time>
+          <time>{formattedDate}</time>
         </p>
       </footer>
       <p className="mb-2 text-accent-content">{reviewObj.reviewText}</p>

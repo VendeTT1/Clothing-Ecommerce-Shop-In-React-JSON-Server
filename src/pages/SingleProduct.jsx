@@ -68,12 +68,14 @@ const SingleProduct = () => {
   const sizeString = productData.availablesizes;
   console.log("this the type of the sizeString :" + typeof sizeString[0]);
   const sizeArray = JSON.parse(sizeString);
-
+  // const rev = productData?.totalreviewcount;
+  // console.log("rev count is :" + rev);
   const product = {
     id: productData?.id + size,
     title: productData?.name,
     image: productData?.imageurl,
     rating: productData?.rating,
+    // reviewcount: productData?.totalreviewcount,
     price: productData?.price,
     brandName: productData?.brandname,
     amount: quantity,
@@ -247,13 +249,13 @@ const SingleProduct = () => {
               In Stock: {productData?.isinstock ? "Yes" : "No"}
             </div>
             <div className="badge bg-gray-700 badge-lg font-bold text-white p-5 mt-2">
-              SKU: {productData?.productCode}
+              SKU: {productData?.productcode}
             </div>
             <div className="badge bg-gray-700 badge-lg font-bold text-white p-5 mt-2">
               Category: {productData?.category}
             </div>
             <div className="badge bg-gray-700 badge-lg font-bold text-white p-5 mt-2">
-              Production Date: {productData?.productionDate?.substring(0, 10)}
+              Production Date: {productData?.productiondate?.substring(0, 10)}
             </div>
           </div>
         </div>

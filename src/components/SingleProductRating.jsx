@@ -23,7 +23,7 @@ const SingleProductRating = ({rating, productData}) => {
           })}
       {rating[0] === "full star" &&
         parse(
-          `<p className='text-xl ml-2'>(${productData?.totalReviewCount} reviews)</p>`
+          `<p className='text-xl ml-2'>(${productData?.totalreviewcount} reviews)</p>`
         )}
     </div>
   );
