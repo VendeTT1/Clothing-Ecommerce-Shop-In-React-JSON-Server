@@ -29,23 +29,23 @@ export const singleProductLoader = async ({ params }) => {
   // console.log("This is the response " +  JSON.stringify(response.data,  null, 2));
   // return { productData: response.data };
   try {
-  const response = await axios(`http://localhost:8080/product/${id}`);
+    const response = await axios(`http://localhost:8080/product/${id}`);
 
-  // Access product data directly without stringifying
-  const productData = response.data[0];
-  const additionalImageUrls = productData.additionalimageurls;
-  const availablesizes = productData.availablesizes;
-  console.log(productData); // This will now show the data in object format
-  console.log("here is add :", additionalImageUrls); // Access the property directly
-console.log("here is type :", typeof(additionalImageUrls));
-  console.log("here is add :", availablesizes);
+    // Access product data directly without stringifying
+    const productData = response.data[0];
+    const additionalImageUrls = productData.additionalimageurls;
+    const availablesizes = productData.availablesizes;
+    console.log(productData); // This will now show the data in object format
+    console.log("here is add :", additionalImageUrls); // Access the property directly
+    console.log("here is type :", typeof additionalImageUrls);
+    console.log("here is add :", availablesizes);
+    console.log("here is type :", typeof availablesizes);
 
-  return { productData, additionalImageUrls }; // Return both data objects
-} catch (error) {
-  console.error("Error fetching product data:", error);
-  // Handle errors appropriately (e.g., return null or an error object)
-}
-
+    return { productData, additionalImageUrls }; // Return both data objects
+  } catch (error) {
+    console.error("Error fetching product data:", error);
+    // Handle errors appropriately (e.g., return null or an error object)
+  }
 };
 
 const SingleProduct = () => {
@@ -65,17 +65,16 @@ const SingleProduct = () => {
   ]);
 
   const { productData } = useLoaderData();
-const sizeString = productData.availablesizes;
-const sizeArray = sizeString.split(",").map((size ) => parseInt(size, 10)).slice(1);
-console.log(sizeArray);
-console.log("this the type of the sizeArray :" + typeof(sizeArray));
- 
+  const sizeString = productData.availablesizes;
+  console.log("this the type of the sizeString :" + typeof sizeString[0]);
+  const sizeArray = JSON.parse(sizeString);
+
   const product = {
     id: productData?.id + size,
     title: productData?.name,
     image: productData?.imageurl,
     rating: productData?.rating,
-    price: productData?.price?.current?.value,
+    price: productData?.price,
     brandName: productData?.brandname,
     amount: quantity,
     selectedSize: size || sizeArray,
@@ -84,9 +83,7 @@ console.log("this the type of the sizeArray :" + typeof(sizeArray));
     isInWishList:
       wishItems.find((item) => item.id === productData?.id + size) !==
       undefined,
-    
   };
-
 
   for (let i = 0; i < productData?.rating; i++) {
     rating[i] = "full star";
@@ -99,7 +96,6 @@ console.log("this the type of the sizeArray :" + typeof(sizeArray));
       );
       const userObj = getResponse.data;
 
-      
       userObj.userWishlist = userObj.userWishlist || [];
 
       userObj.userWishlist.push(product);
@@ -109,7 +105,6 @@ console.log("this the type of the sizeArray :" + typeof(sizeArray));
         userObj
       );
 
-      
       store.dispatch(updateWishlist({ userObj }));
       toast.success("Product added to the wishlist!");
     } catch (error) {
@@ -136,11 +131,9 @@ console.log("this the type of the sizeArray :" + typeof(sizeArray));
       userObj
     );
 
-    
     store.dispatch(removeFromWishlist({ userObj }));
     toast.success("Product removed from the wishlist!");
   };
-
 
   return (
     <>
@@ -169,18 +162,12 @@ console.log("this the type of the sizeArray :" + typeof(sizeArray));
             {productData?.name}
           </h2>
           <SingleProductRating rating={rating} productData={productData} />
-          <p className="text-3xl text-error">
-            ${productData?.price?.current?.value}
-          </p>
+          <p className="text-3xl text-error">${productData?.price}</p>
           <div className="text-xl max-sm:text-lg text-accent-content">
             {parse(productData?.description)}
           </div>
           <div className="text-2xl">
-            <SelectSize
-              sizeList={sizeArray}
-              size={size}
-              setSize={setSize}
-            />
+            <SelectSize sizeList={sizeArray} size={size} setSize={setSize} />
           </div>
           <div>
             <label htmlFor="Quantity" className="sr-only">
@@ -266,8 +253,7 @@ console.log("this the type of the sizeArray :" + typeof(sizeArray));
               Category: {productData?.category}
             </div>
             <div className="badge bg-gray-700 badge-lg font-bold text-white p-5 mt-2">
-              Production Date:{" "}
-              {productData?.productionDate?.substring(0, 10)}
+              Production Date: {productData?.productionDate?.substring(0, 10)}
             </div>
           </div>
         </div>
