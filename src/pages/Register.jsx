@@ -11,7 +11,7 @@ const Register = () => {
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [phone, setPhone] = useState("");
-  const [adress, setAdress] = useState("");
+  const [address, setAddress] = useState("");
 
   const navigate = useNavigate();
 
@@ -31,7 +31,7 @@ const Register = () => {
     } else if (phone.length < 4) {
       isProceed = false;
       errorMessage = "Phone must be longer than 3 characters";
-    } else if (adress.length < 4) {
+    } else if (address.length < 4) {
       isProceed = false;
       errorMessage = "Adress must be longer than 3 characters";
     } else if (password.length < 6) {
@@ -61,13 +61,13 @@ const Register = () => {
       lastname,
       email,
       phone,
-      adress,
+      address,
       password,
       userWishlist: [],
     };
 
     if (isValidate()) {
-      fetch("http://localhost:8080/user", {
+      fetch("http://localhost:8080/auth/register", {
         method: "POST",
         headers: { "content-type": "application/json" },
         body: JSON.stringify(regObj),
@@ -129,13 +129,13 @@ const Register = () => {
                 required={true}
               />
               <label className="font-semibold text-sm pb-1 block text-accent-content">
-                Adress
+                Address
               </label>
               <input
                 type="text"
                 className="border rounded-lg px-3 py-2 mt-1 mb-5 text-sm w-full"
-                value={adress}
-                onChange={(e) => setAdress(e.target.value)}
+                value={address}
+                onChange={(e) => setAddress(e.target.value)}
                 required={true}
               />
               <label className="font-semibold text-sm pb-1 block text-accent-content">
