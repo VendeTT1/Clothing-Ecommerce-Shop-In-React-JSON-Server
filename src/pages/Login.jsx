@@ -33,13 +33,14 @@ const Login = () => {
     return isProceed;
   };
 
-  const proceedLogin = (e) => {
+ /* const proceedLogin = (e) => {
     e.preventDefault();
     if (isValidate()) {
-      fetch("http://localhost:8080/user")
+      fetch("http://localhost:8080/auth/login")
         .then((res) => res.json())
         .then((res) => {
           let data = res;
+          console.log(data);
           const foundUser = data.filter(
             (item) => item.email === email && item.password === password
           );
@@ -56,9 +57,48 @@ const Login = () => {
           toast.error("Login failed due to: " + err.message);
         });
     }
-  };
+  };*/
 
-  return (
+const proceedLogin = (e) => {
+  e.preventDefault();
+
+  if (isValidate()) {
+    fetch("http://localhost:8080/auth/login", {
+      method: "POST",
+
+      headers: {
+        "Content-Type": "application/json",
+      },
+
+      body: JSON.stringify({
+        email: email,
+
+        password: password,
+      }),
+    })
+      .then((res) => res.json())
+
+      .then((data) => {
+        if (data && data.id) {
+          localStorage.setItem("id", data.id);
+
+          toast.success("Login successful");
+
+          dispatch(loginUser());
+
+          navigate("/");
+        } else {
+          toast.warn("Login failed: No ID returned from server");
+        }
+      })
+
+      .catch((err) => {
+        toast.error("Login failed due to: " + err.message);
+      });
+  }
+};
+
+return (
     <>
       <SectionTitle title="Login" path="Home | Login" />
       <div className="flex flex-col justify-center sm:py-12">
