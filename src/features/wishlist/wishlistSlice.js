@@ -16,11 +16,11 @@ const wishlistSlice = createSlice({
     clearWishlist: (state) => {
       state.wishItems = [];
     },
-    removeFromWishlist: (state, action) => {
+    // removeFromWishlist: (state, action) => {
       
-      state.wishItems = action.payload.userObj.userWishlist;
-      toast.error("Product removed from the wishlist!");
-    },
+    //   state.wishItems = action.payload.userObj.userWishlist;
+    //   toast.error("Product removed from the wishlist!");
+    // },
     updateWishlist: (state, action) => {
 
       state.wishItems = action.payload.userObj.userWishlist;

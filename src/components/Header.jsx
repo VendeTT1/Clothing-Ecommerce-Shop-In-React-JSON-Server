@@ -78,7 +78,7 @@ const Header = () => {
             className="btn btn-ghost normal-case text-2xl font-black text-accent-content"
           >
             <AiFillShopping />
-            Kuzma Clothing & Shoes
+            GIGD Clothing & Shoes
           </Link>
         </div>
         <div className="flex-none">

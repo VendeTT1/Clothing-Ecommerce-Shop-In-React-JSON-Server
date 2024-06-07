@@ -16,7 +16,7 @@ const Profile = () => {
     lastname: "",
     email: "",
     phone: "",
-    adress: "",
+    address: "",
     password: "",
   });
   const navigate = useNavigate();
@@ -30,7 +30,7 @@ const Profile = () => {
         lastname: data.lastname,
         email: data.email,
         phone: data.phone,
-        adress: data.adress,
+        address: data.address,
         password: data.password,
       });
     } catch (error) {
@@ -55,19 +55,26 @@ const Profile = () => {
       const userObj = getResponse.data;
 
       // saljemo get(default) request
-      const putResponse = await axios.put(`http://localhost:8080/user/${id}`, {
-        id: id,
-        name: userFormData.name,
-        lastname: userFormData.lastname,
-        email: userFormData.email,
-        phone: userFormData.phone,
-        adress: userFormData.adress,
-        password: userFormData.password,
-        userWishlist: await userObj.userWishlist
-        //userWishlist treba da stoji ovde kako bi sacuvao stanje liste zelja
-      });
+      const putResponse = await axios.put(
+        `http://localhost:8080/user/edit/${id}`,
+        {
+          id: id,
+          name: userFormData.name,
+          lastname: userFormData.lastname,
+          email: userFormData.email,
+          phone: userFormData.phone,
+          address: userFormData.address,
+          password: userFormData.password,
+          userWishlist: await userObj.userWishlist,
+          //userWishlist needs to be here to save the state of the wishlist.
+        }
+      );
       const putData = putResponse.data;
+      if(putResponse){
+        toast.success("Profile Edited Successfully");
+      }
     }catch(error){
+      toast.error("Something went wrong");
       console.log(error.response);
     }
   }
@@ -131,18 +138,18 @@ const Profile = () => {
 
           <div className="form-control w-full lg:max-w-xs">
             <label className="label">
-              <span className="label-text">Your Adress</span>
+              <span className="label-text">Your address</span>
             </label>
             <input
               type="text"
               placeholder="Type here"
               className="input input-bordered w-full lg:max-w-xs"
-              value={userFormData.adress}
-              onChange={(e) => {setUserFormData({...userFormData, adress: e.target.value})}}
+              value={userFormData.address}
+              onChange={(e) => {setUserFormData({...userFormData, address: e.target.value})}}
             />
           </div>
 
-          <div className="form-control w-full lg:max-w-xs">
+          {/* <div className="form-control w-full lg:max-w-xs">
             <label className="label">
               <span className="label-text">Your Password</span>
             </label>
@@ -153,7 +160,7 @@ const Profile = () => {
               value={userFormData.password}
               onChange={(e) => {setUserFormData({...userFormData, password: e.target.value})}}
             />
-          </div>
+          </div> */}
         </div>
         <button
           className="btn btn-lg bg-blue-600 hover:bg-blue-500 text-white mt-10"

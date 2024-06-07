@@ -77,39 +77,49 @@ const SingleProduct = () => {
     rating: productData?.rating,
     // reviewcount: productData?.totalreviewcount,
     price: productData?.price,
-    brandName: productData?.brandname,
+    brandname: productData?.brandname,
     amount: quantity,
-    selectedSize: size || sizeArray,
-    additionalImageUrls: productData?.additionalimageurls,
+    selectedsize: size || sizeArray,
+    additionalimageurls: productData?.additionalimageurls,
 
-    isInWishList:
+    isinwishlList:
       wishItems.find((item) => item.id === productData?.id + size) !==
       undefined,
   };
+   const wishlist = {
+     id: productData?.id ,
+     title: productData?.name,
+     image: productData?.imageurl,
+     rating: productData?.rating,
+     price: productData?.price,
+     brandname: productData?.brandname,
+     amount: quantity,
+     selectedsize: size || sizeArray,
+     isinwishlList:
+       wishItems.find((item) => item.id === productData?.id + size) !==
+       undefined,
+   };
 
   for (let i = 0; i < productData?.rating; i++) {
     rating[i] = "full star";
   }
 
-  const addToWishlistHandler = async (product) => {
+  const addToWishlistHandler = async () => {
     try {
       const getResponse = await axios.get(
         `http://localhost:8080/user/${localStorage.getItem("id")}`
       );
-      const userObj = getResponse.data;
 
-      userObj.userWishlist = userObj.userWishlist || [];
-
-      userObj.userWishlist.push(product);
-
-      const postResponse = await axios.put(
-        `http://localhost:8080/user/${localStorage.getItem("id")}`,
-        userObj
+    // console.log(wishlist);
+      const postResponse = await axios.post(
+        `http://localhost:8080/wishlist/${localStorage.getItem("id")}/add`,
+        wishlist
       );
 
-      store.dispatch(updateWishlist({ userObj }));
+      // store.dispatch(updateWishlist({ wishlist }));
       toast.success("Product added to the wishlist!");
     } catch (error) {
+      toast.error("Product already present in the wishlist!");
       console.error(error);
     }
   };
@@ -119,18 +129,19 @@ const SingleProduct = () => {
       `http://localhost:8080/user/${localStorage.getItem("id")}`
     );
     const userObj = getResponse.data;
+    const objId = getResponse.data.id;
 
-    userObj.userWishlist = userObj.userWishlist || [];
+console.log(objId)
+    // userObj.userWishlist = userObj.userWishlist || [];
 
-    const newWishlist = userObj.userWishlist.filter(
-      (item) => product.id !== item.id
-    );
+    // const newWishlist = userObj.userWishlist.filter(
+    //   (item) => product.id !== item.id
+    // );
 
-    userObj.userWishlist = newWishlist;
+    // userObj.userWishlist = newWishlist;
 
-    const postResponse = await axios.put(
-      `http://localhost:8080/user/${localStorage.getItem("id")}`,
-      userObj
+    const deleteResponse = await axios.delete(
+      `http://localhost:8080/user/${localStorage.getItem("id")}/remove/${objId}`
     );
 
     store.dispatch(removeFromWishlist({ userObj }));
