@@ -14,7 +14,9 @@ const Search = () => {
     setSearchTerm(prevState => e.target.search.value);
     try {
       const response = await axios(
-        `http://localhost:8080/products?q=${e.target.search.value}&_page=${currentPage}`
+        `http://localhost:8080/product/search?s=${e.target.search.value}&start=0&limit=10`
+        // &_page=${currentPage}
+        
       );
       const data = response.data;
       setProducts(data);
@@ -26,7 +28,10 @@ const Search = () => {
   const handleSearchPagination = async () => {
     try {
       const response = await axios(
-        `http://localhost:8080/products?q=${searchTerm}&_page=${currentPage}`
+        `http://localhost:8080/product/search?s=${searchTerm}&start=${
+          (currentPage - 1) * 10
+        }&limit=10`
+        // &_page=${currentPage}`
       );
       const data = response.data;
       setProducts(data);
@@ -80,10 +85,10 @@ const Search = () => {
               key={nanoid()}
               id={product.id}
               title={product.name}
-              image={product.imageUrl}
+              image={product.imageurl}
               rating={product.rating}
-              price={product.price.current.value}
-              brandName={product.brandName}
+              price={product.price}
+              brandName={product.brandname}
             />
           ))}
 

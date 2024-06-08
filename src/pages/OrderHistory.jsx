@@ -15,10 +15,12 @@ const OrderHistory = () => {
   const getOrderHistory = async () => {
     try {
       // saljemo get(default) request
-      const response = await axios.get("http://localhost:8080/orders");
+      const response = await axios.get(`http://localhost:8080/orders/user/${localStorage.getItem("id")}`);
       const data = response.data;
+      console.log(data);
       setOrders(
-        data.filter((order) => order.userId === localStorage.getItem("id"))
+        response.data
+        //data.filter((order) => order.userId === localStorage.getItem("id"))
       );
     } catch (error) {
       toast.error(error.response);
@@ -54,12 +56,12 @@ const OrderHistory = () => {
           orders.map((order) => {
             return (
               <div
-                key={nanoid()}
+                key={order.id}
                 className="collapse collapse-plus bg-base-200 mb-2"
               >
                 <input type="radio" name="my-accordion-3" />
                 <div className="collapse-title text-xl font-medium text-accent-content">
-                  Order {order.id} - {order.orderStatus}
+                  Order {order.id} - {order.orderstatus}
                 </div>
                 <div className="collapse-content">
                   <div className="overflow-x-auto">
@@ -76,20 +78,28 @@ const OrderHistory = () => {
                         </tr>
                       </thead>
                       <tbody>
-                        {order.cartItems.map((product, counter) => (
-                          <tr className="text-accent-content" key={nanoid()}>
+                        {order.cartItem.map((product, counter) => (
+                          <tr className="text-accent-content" key={order.id}>
                             <th>{counter + 1}</th>
-                            <th><img src={`https://${product.image}`} alt="" className="w-10" /></th>
+                            <th>
+                              <img
+                                src={`https://${product.image}`}
+                                alt=""
+                                className="w-10"
+                              />
+                            </th>
                             <td>{product.title}</td>
-                            <td>{product.selectedSize}</td>
+                            <td>{product.selectedsize}</td>
                             <td>{product.amount}</td>
-                            <td>${(product.price * product.amount).toFixed(2)}</td>
+                            <td>
+                              ${(product.price * product.amount).toFixed(2)}
+                            </td>
                           </tr>
                         ))}
                         <tr>
                           <td colSpan="5" className="text-center">
                             <h4 className="text-md text-accent-content">
-                              Subtotal: ${ Math.round(order?.subtotal) }
+                              Subtotal: ${Math.round(order?.subtotal)}
                             </h4>
                           </td>
                         </tr>
@@ -103,14 +113,18 @@ const OrderHistory = () => {
                         <tr>
                           <td colSpan="5" className="text-center">
                             <h3 className="text-md text-accent-content">
-                              Tax: 20%: ${ Math.round(order?.subtotal / 5) }
+                              Tax: 20%: ${Math.round(order?.subtotal / 5)}
                             </h3>
                           </td>
                         </tr>
                         <tr>
                           <td colSpan="5" className="text-center">
                             <h3 className="text-xl text-accent-content">
-                              - Order Total: ${ Math.round(order?.subtotal + 50 + (order?.subtotal / 5)) } -
+                              - Order Total: $
+                              {Math.round(
+                                order?.subtotal + 50 + order?.subtotal / 5
+                              )}{" "}
+                              -
                             </h3>
                           </td>
                         </tr>
