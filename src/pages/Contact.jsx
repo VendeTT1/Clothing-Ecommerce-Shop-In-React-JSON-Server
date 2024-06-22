@@ -1,15 +1,62 @@
-import React from "react";
+import React, { useState } from "react";
 import { Form } from "react-router-dom";
 import { SectionTitle } from "../components";
+import emailjs from "@emailjs/browser";
+import { toast } from "react-toastify";
 
 const Contact = () => {
+    const [name, setName] = useState("");
+    const [email, setEmail] = useState("");
+    const [lastname, setLastname] = useState("");
+    const [company, setCompany] = useState("");
+    const [phone, setPhone] = useState("");
+    const [message, setMessage] = useState("");
+
+    const handleSubmit = (e) => {
+      e.preventDefault();
+
+      // Your EmailJS service ID, template ID, and Public Key
+      const serviceId = "service_lp86jjw";
+      const templateId = "template_3wrk87i";
+      const publicKey = "J5NkqXP1svxR_lWKd";
+
+      // Create a new object that contains dynamic template params
+      const templateParams = {
+        from_first_name: name,
+        from_email: email,
+        from_phone_number: phone,
+        from_last_name: lastname,
+        to_name: "Contact Support",
+        message: message,
+      };
+
+      // Send the email using EmailJS
+      emailjs
+        .send(serviceId, templateId, templateParams, publicKey)
+        .then((response) => {
+          console.log("Email sent successfully!", response);
+          toast.success("Email sent successfuly!");
+          setName("");
+          setEmail("");;
+          setLastname("");
+          setPhone("");
+          setMessage("");
+        })
+
+        .catch((error) => {
+          console.error("Error sending email:", error);
+           toast.warn("Error sending email");
+        });
+    };
+
   return (
     <>
       <SectionTitle title="Contact Us" path="Home | Contact" />
       <div className="isolate px-6 lg:px-8">
         <Form
-          action="#"
-          method="POST"
+          // action="#"
+          // method="POST"
+          onSubmit={handleSubmit}
           className="mx-auto mt-16 max-w-xl sm:mt-20"
         >
           <div className="grid grid-cols-1 gap-x-8 gap-y-6 sm:grid-cols-2">
@@ -23,6 +70,8 @@ const Contact = () => {
               <div className="mt-2.5">
                 <input
                   type="text"
+                  value={name}
+                  onChange={(e) => setName(e.target.value)}
                   name="first-name"
                   id="first-name"
                   autoComplete="given-name"
@@ -40,6 +89,8 @@ const Contact = () => {
               <div className="mt-2.5">
                 <input
                   type="text"
+                  value={lastname}
+                  onChange={(e) => setLastname(e.target.value)}
                   name="last-name"
                   id="last-name"
                   autoComplete="family-name"
@@ -74,6 +125,8 @@ const Contact = () => {
               <div className="mt-2.5">
                 <input
                   type="email"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
                   name="email"
                   id="email"
                   autoComplete="email"
@@ -91,6 +144,8 @@ const Contact = () => {
               <div className="relative mt-2.5">
                 <input
                   type="tel"
+                  value={phone}
+                  onChange={(e) => setPhone(e.target.value)}
                   name="phone-number"
                   id="phone-number"
                   autoComplete="tel"
@@ -108,6 +163,8 @@ const Contact = () => {
               <div className="mt-2.5">
                 <textarea
                   name="message"
+                  value={message}
+                  onChange={(e) => setMessage(e.target.value)}
                   id="message"
                   rows="4"
                   className="block w-full rounded-md border-0 px-3.5 py-2 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
@@ -123,7 +180,9 @@ const Contact = () => {
                   aria-checked="false"
                   aria-labelledby="switch-1-label"
                 >
-                  <span className="sr-only text-accent-content">Agree to policies</span>
+                  <span className="sr-only text-accent-content">
+                    Agree to policies
+                  </span>
 
                   <span
                     aria-hidden="true"
@@ -131,10 +190,13 @@ const Contact = () => {
                   ></span>
                 </button>
               </div>
-              <label className="text-sm leading-6 text-accent-content" id="switch-1-label">
+              <label
+                className="text-sm leading-6 text-accent-content"
+                id="switch-1-label"
+              >
                 By selecting this, you agree to our
                 <a href="#" className="font-semibold text-blue-500">
-                &nbsp;privacy&nbsp;policy
+                  &nbsp;privacy&nbsp;policy
                 </a>
                 .
               </label>
