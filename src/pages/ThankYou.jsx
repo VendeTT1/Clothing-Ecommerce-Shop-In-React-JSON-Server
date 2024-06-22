@@ -8,7 +8,7 @@ import { store } from "../store";
 import { calculateTotals, clearCart } from "../features/cart/cartSlice";
 
 const ThankYou = () => {
-  const { cartItems } = useSelector((state) => state.cart);
+  const { cartItem } = useSelector((state) => state.cart);
   const loginState = useSelector((state) => state.auth.isLoggedIn);
   const { total } = useSelector((state) => state.cart);
   const dispatch = useDispatch();
@@ -20,14 +20,14 @@ const ThankYou = () => {
         userId: localStorage.getItem("id"),
         orderStatus: "in progress",
         subtotal: total,
-        cartItems: cartItems,
+        cartItem: cartItem,
       });
     } catch (err) {
       toast.error(err.response);
     }
   };
 
-  if (cartItems.length > 0) {
+  if (cartItem.length > 0) {
     saveToOrderHistory();
     store.dispatch(clearCart());
     store.dispatch(calculateTotals());
