@@ -3,7 +3,7 @@ import { removeItem, updateCartAmount } from "../features/cart/cartSlice";
 
 
 const CartItem = ({ cartItem }) => {
-  const { id, title, price, image, amount, brandName, selectedSize } =
+  const { id, title, price, image, amount, brandname, selectedsize } =
     cartItem;
 
     const dispatch = useDispatch();
@@ -25,10 +25,10 @@ const CartItem = ({ cartItem }) => {
         <h3 className="capitalize font-medium text-accent-content">{title}</h3>
         {/* COMPANY */}
         <h4 className="mt-2 capitalize text-sm text-accent-content">
-          Brand: { brandName }
+          Brand: { brandname }
         </h4>
         <h4 className="mt-2 capitalize text-sm text-accent-content">
-          Size: { selectedSize }
+          Size: { selectedsize }
         </h4>
       </div>
       <div className="sm:ml-12">
