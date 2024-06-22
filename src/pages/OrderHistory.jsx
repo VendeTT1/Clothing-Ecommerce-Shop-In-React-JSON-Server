@@ -66,7 +66,7 @@ const OrderHistory = () => {
                 <div className="collapse-content">
                   <div className="overflow-x-auto">
                     <table className="table max-sm:table-xs table-pin-rows table-pin-cols">
-                      {/* head */}
+                     {/* head */}
                       <thead>
                         <tr className="text-accent-content">
                           <th>Order</th>
@@ -96,7 +96,7 @@ const OrderHistory = () => {
                             </td>
                           </tr>
                         ))}
-                        <tr>
+                        {/* <tr>
                           <td colSpan="5" className="text-center">
                             <h4 className="text-md text-accent-content">
                               Subtotal: ${Math.round(order?.subtotal)}
@@ -127,7 +127,7 @@ const OrderHistory = () => {
                               -
                             </h3>
                           </td>
-                        </tr>
+                        </tr> */}
                       </tbody>
                     </table>
                   </div>

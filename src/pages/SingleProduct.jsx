@@ -71,7 +71,7 @@ const SingleProduct = () => {
   // const rev = productData?.totalreviewcount;
   // console.log("rev count is :" + rev);
   const product = {
-    id: productData?.id + size,
+    id: productData?.id,
     title: productData?.name,
     image: productData?.imageurl,
     rating: productData?.rating,
