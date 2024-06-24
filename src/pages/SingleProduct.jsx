@@ -33,9 +33,10 @@ export const singleProductLoader = async ({ params }) => {
 
     // Access product data directly without stringifying
     const productData = response.data[0];
+    console.log(productData); // This will now show the data in object format
+
     const additionalImageUrls = productData.additionalimageurls;
     const availablesizes = productData.availablesizes;
-    console.log(productData); // This will now show the data in object format
     console.log("here is add :", additionalImageUrls); // Access the property directly
     console.log("here is type :", typeof additionalImageUrls);
     console.log("here is add :", availablesizes);
@@ -43,6 +44,7 @@ export const singleProductLoader = async ({ params }) => {
 
     return { productData, additionalImageUrls }; // Return both data objects
   } catch (error) {
+    console.log(productData);
     console.error("Error fetching product data:", error);
     // Handle errors appropriately (e.g., return null or an error object)
   }

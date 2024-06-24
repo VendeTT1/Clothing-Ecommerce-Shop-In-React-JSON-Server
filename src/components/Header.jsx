@@ -66,7 +66,7 @@ const Header = () => {
           <li>
             <FaRegEnvelope className="text-2xl max-sm:text-lg text-accent-content" />{" "}
             <span className="text-2xl max-sm:text-lg text-accent-content">
-              support@test.com
+              contact.gigd@gmail.com
             </span>
           </li>
         </ul>
